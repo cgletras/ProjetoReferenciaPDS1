@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Category;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Order;
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.OrderItem;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Product;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.User;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.enums.OrderStatus;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.CategoryRepository;
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.OrderItemRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.OrderRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.ProductRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.UserRepository;
@@ -33,6 +35,9 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -68,6 +73,13 @@ public class TestConfig implements CommandLineRunner {
 		
 		userRepository.saveAll(Arrays.asList(u1, u2));
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+	
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+	
+		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 	}
 	
 	
