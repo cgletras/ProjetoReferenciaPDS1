@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Category;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.CategoryRepository;
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CategoryService {
@@ -21,7 +22,7 @@ public class CategoryService {
 	
 	public Category findById(Long id) {
 		Optional<Category> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public Category insert(Category obj) {
