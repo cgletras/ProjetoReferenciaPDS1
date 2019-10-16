@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.dto.ProductDTO;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Product;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.services.ProductService;
 
@@ -20,16 +21,15 @@ public class ProductResource {
 	private ProductService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Product>> findAll() {
+	public ResponseEntity<List<ProductDTO>> findAll() {
 		
-		List<Product> list = service.findAll();
+		List<ProductDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Long id){
-		Product obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
+		ProductDTO dto = service.findById(id);
+		return ResponseEntity.ok().body(dto);
 	}
-
 }
