@@ -28,7 +28,6 @@ public class UseResource {
 	
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
-		
 		List<UserDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
@@ -53,9 +52,9 @@ public class UseResource {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj){
-		obj = service.update(id, obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO dto){
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
 	}
 	
 
