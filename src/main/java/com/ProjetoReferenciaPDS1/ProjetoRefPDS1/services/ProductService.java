@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Category;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Product;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.CategoryRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.ProductRepository;
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.resources.exceptions.DatabaseException;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -74,6 +77,16 @@ public class ProductService {
 		entity.setImgUrl(dto.getImgUrl());
 		if(dto.getCategories() != null && dto.getCategories().size() >0) {
 			setProductCategories(entity, dto.getCategories());
+		}
+	}
+	
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
 		}
 	}
 	
