@@ -6,12 +6,15 @@ import java.time.Instant;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Order;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.User;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class OrderDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 	private OrderStatus orderStatus;
 	private Long clientId;
