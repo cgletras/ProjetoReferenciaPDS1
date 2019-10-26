@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.dto.OrderDTO;
-import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Order;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.services.OrderService;
 
 @RestController
@@ -33,6 +32,13 @@ public class OrderResource {
 	public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
 		OrderDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
+	}
+	
+	@GetMapping(value = "/myorders")
+	public ResponseEntity<List<OrderDTO>> findByClient() {
+		
+		List<OrderDTO> list = service.findByCliente();
+		return ResponseEntity.ok().body(list);
 	}
 
 }
