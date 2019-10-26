@@ -13,12 +13,14 @@ import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Order;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.OrderItem;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Payment;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Product;
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Role;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.User;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.enums.OrderStatus;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.CategoryRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.OrderItemRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.OrderRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.ProductRepository;
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.RoleRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.UserRepository;
 
 @Configuration
@@ -39,6 +41,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -73,6 +78,18 @@ public class TestConfig implements CommandLineRunner {
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT,u1);
 		
 		userRepository.saveAll(Arrays.asList(u1, u2));
+		
+		Role r1 = new Role(null, "ROLE_CLIENTE");
+		Role r2 = new Role(null, "ROLE_ADMIN");
+		
+		roleRepository.saveAll(Arrays.asList(r1, r2));
+		
+		u1.getRoles().add(r1);
+		u2.getRoles().add(r1);
+		u2.getRoles().add(r2);
+		
+		userRepository.saveAll(Arrays.asList(u1, u2));
+		
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 	
 		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
