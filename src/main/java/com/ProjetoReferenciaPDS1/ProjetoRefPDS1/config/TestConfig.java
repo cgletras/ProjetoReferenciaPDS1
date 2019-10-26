@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Category;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Order;
@@ -26,6 +27,9 @@ import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.UserRepository;
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -70,8 +74,8 @@ public class TestConfig implements CommandLineRunner {
 		
 		productRepository.saveAll(Arrays.asList(p1,p2, p3, p4, p5));
 		
-		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "99988888", "123456");
-		User u2 = new User(null, "Alex Green", "alex@gmail.com", "99978888", "123456");
+		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "99988888", passwordEncoder.encode("123456"));
+		User u2 = new User(null, "Alex Green", "alex@gmail.com", "99978888", passwordEncoder.encode("123456"));
 		
 		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYMENT,u2);
