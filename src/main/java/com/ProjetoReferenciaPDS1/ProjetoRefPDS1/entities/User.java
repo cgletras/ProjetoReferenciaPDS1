@@ -25,24 +25,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "td_user")
 public class User implements UserDetails {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	
+
 	@Column(unique = true)
 	private String email;
 	private String phone;
 	private String password;
-	
+
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-	
+
 	public User() {
 	}
 
@@ -94,12 +94,12 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public List<Order> getOrders() {
 		return orders;
 	}
-	
-	public Set<Role> getRoles(){
+
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
@@ -158,8 +158,13 @@ public class User implements UserDetails {
 		return true;
 	}
 
-	
-	
-	
-	
+	public boolean hasRole(String roleName) {
+		for (Role role : roles) {
+			if (role.getAuthority().equals(roleName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
