@@ -2,13 +2,17 @@ package com.ProjetoReferenciaPDS1.ProjetoRefPDS1.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.dto.OrderDTO;
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.dto.OrderItemDTO;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.Order;
+import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.OrderItem;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.entities.User;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.repositories.OrderRepository;
 import com.ProjetoReferenciaPDS1.ProjetoRefPDS1.services.exceptions.ResourceNotFoundException;
@@ -38,5 +42,13 @@ public class OrderService {
 		User cliente = authService.authenticated();
 		List<Order> list = repository.findByClient(cliente);
 		return list.stream().map(e -> new OrderDTO(e)).collect(Collectors.toList());
+	}
+
+	@Transactional
+	public List<OrderItemDTO> findItems(Long id) {
+		Order order = repository.getOne(id);
+		authService.validadeOwnOrderOrAdmin(order);
+		Set<OrderItem> set = order.getItems();
+		return set.stream().map(e -> new OrderItemDTO(e)).collect(Collectors.toList());
 	}
 }
